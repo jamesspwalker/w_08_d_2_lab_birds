@@ -7,7 +7,7 @@ RequestHelper.prototype.get = function () {
     .then((response) => response.json());
 };
 
-RequestHelper.prototype.post = function () {
+RequestHelper.prototype.post = function (payload) {
   return fetch(this.url, {
     method: 'POST',
     body: JSON.stringify(payload),

@@ -10,6 +10,11 @@ Sightings.prototype.bindEvents = function () {
   PubSub.subscribe('SightingView:sighting-delete-clicked', (evt) => {
     this.deleteSighting(evt.detail);
   });
+  // console.log('Binding model events') DEFINITELY HITS
+  PubSub.subscribe('SightingFormView:submitted-sighting', (evt) => {
+    console.log('HELLO WORLD bindEvents');
+    this.postSighting(evt.detail);
+  });
 };
 
 Sightings.prototype.getData = function () {
@@ -20,6 +25,15 @@ Sightings.prototype.getData = function () {
     .catch(console.error);
 };
 
+Sightings.prototype.postSighting = function (sighting) {
+  this.request.post(sighting)
+  .then((sightings) => {
+    PubSub.publish('Sightings:data-loaded', sightings)
+  })
+  .catch(console.error)
+  console.log("HELLO WORLD")
+};
+
 Sightings.prototype.deleteSighting = function (sightingId) {
   this.request.delete(sightingId)
     .then((sightings) => {
@@ -27,5 +41,7 @@ Sightings.prototype.deleteSighting = function (sightingId) {
     })
     .catch(console.error);
 };
+
+
 
 module.exports = Sightings;
